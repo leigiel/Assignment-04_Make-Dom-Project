@@ -6,6 +6,6 @@
 
 ### **GitHub Link:** [https://github.com/leigiel/Assignment-04_Make-Dom-Project](https://github.com/leigiel/Assignment-04_Make-Dom-Project)
 
-### **Live URL:**
+### **Live URL:** [https://thatix-recipe.netlify.app](https://thatix-recipe.netlify.app)
 
 ## Project
