@@ -34,7 +34,7 @@
     <section class="search-section">
       <div class="search-box">
         <input type="text" id="searchInput" placeholder="Search..." />
-        <button class="search-btn" aria-label="Search">
+        <button class="search-btn" id="searchBtn" aria-label="Search">
           <span class="search-icon"></span>
         </button>
       </div>
@@ -42,6 +42,12 @@
 
     <section class="recipes-section">
       <h3>Latest Recipes</h3>
+
+      <div id="recipesStatus" class="recipes-status">
+        <div class="loader"></div>
+        <p class="status-text">Loading recipes...</p>
+      </div>
+
       <div id="recipesGrid" class="recipes-grid"></div>
     </section>
 
@@ -62,6 +68,17 @@
         </div>
       </div>
     </footer>
+    <div id="recipeModal" class="modal">
+      <div class="modal-content">
+        <button class="modal-close" aria-label="Close">&times;</button>
+
+        <div class="modal-body">
+          <img id="modalImage" alt="" />
+          <h3 id="modalTitle"></h3>
+          <p id="modalInstructions"></p>
+        </div>
+      </div>
+    </div>
 
     <script src="./assets/js/app.js"></script>
   </body>
