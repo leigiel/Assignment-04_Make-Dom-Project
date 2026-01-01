@@ -8,25 +8,20 @@
   </head>
   <body>
     <header class="navbar">
-      <img
-        src="./assets/images/logo.png"
-        alt="Thatix Cooking Recipe"
-        class="logo"
-      />
+      <img src="./assets/images/logo.png" class="logo" alt="Thatix Logo" />
     </header>
 
     <section class="hero">
       <img
         src="./assets/images/page-title.jpg"
-        alt="Hero image"
         class="hero-image"
+        alt="Cooking Hero"
       />
-
       <div class="hero-content">
         <h2>Search Your<br />Favourite Recipe</h2>
         <p>
-          A handful of simple ingredients typify the fresh, vibrant<br />
-          flavors of Greek cooking.
+          A handful of simple ingredients typify the fresh, vibrant<br />flavors
+          of Greek cooking.
         </p>
       </div>
     </section>
@@ -34,7 +29,7 @@
     <section class="search-section">
       <div class="search-box">
         <input type="text" id="searchInput" placeholder="Search..." />
-        <button class="search-btn" id="searchBtn" aria-label="Search">
+        <button title="search" class="search-btn" id="searchBtn">
           <span class="search-icon"></span>
         </button>
       </div>
@@ -42,43 +37,58 @@
 
     <section class="recipes-section">
       <h3>Latest Recipes</h3>
-
       <div id="recipesStatus" class="recipes-status">
         <div class="loader"></div>
         <p class="status-text">Loading recipes...</p>
       </div>
-
       <div id="recipesGrid" class="recipes-grid"></div>
     </section>
 
     <footer class="footer">
       <div class="footer-container">
         <p class="footer-text">Copyright © 2023 - All right reserved</p>
-
         <div class="footer-social">
-          <a href="#" aria-label="Twitter">
-            <img src="./assets/icons/twitter.svg" alt="" />
-          </a>
-          <a href="#" aria-label="YouTube">
-            <img src="./assets/icons/youtube.svg" alt="" />
-          </a>
-          <a href="#" aria-label="Facebook">
-            <img src="./assets/icons/facebook.svg" alt="" />
-          </a>
+          <img src="./assets/icons/twitter.svg" alt="Twitter" />
+          <img src="./assets/icons/youtube.svg" alt="YouTube" />
+          <img src="./assets/icons/facebook.svg" alt="Facebook" />
         </div>
       </div>
     </footer>
-    <div id="recipeModal" class="modal">
-      <div class="modal-content">
-        <button class="modal-close" aria-label="Close">&times;</button>
 
-        <div class="modal-body">
-          <img id="modalImage" alt="" />
-          <h3 id="modalTitle"></h3>
-          <p id="modalInstructions"></p>
+    <div id="recipeModal" class="modal">
+      <div class="modal-outer">
+        <div id="modalLoader" class="modal-loader"></div>
+        <div class="modal-inner">
+          <div class="modal-body">
+            <img id="modalImage" alt="Recipe Image" />
+            <h3 id="modalTitle"></h3>
+            <p id="modalInstructions"></p>
+          </div>
+        </div>
+        <div class="modal-action">
+          <button id="modalCloseBtn" class="modal-close-bottom">Close</button>
         </div>
       </div>
     </div>
+
+    <button title="scroll-top" id="scrollTopBtn" class="scroll-top-btn">
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="white"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12 4L12 20M12 4L6 10M12 4L18 10"
+          fill="white"
+          stroke="white"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
 
     <script src="./assets/js/app.js"></script>
   </body>

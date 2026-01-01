@@ -6,51 +6,79 @@ const recipeModal = document.getElementById("recipeModal");
 const modalImage = document.getElementById("modalImage");
 const modalTitle = document.getElementById("modalTitle");
 const modalInstructions = document.getElementById("modalInstructions");
-const modalClose = document.querySelector(".modal-close");
+const modalLoader = document.getElementById("modalLoader");
+const modalCloseBtn = document.getElementById("modalCloseBtn");
+const modalBody = document.querySelector(".modal-body");
+const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+function resetModal() {
+  modalImage.src = "";
+  modalTitle.textContent = "";
+  modalInstructions.textContent = "";
+}
+
+window.addEventListener("scroll", () => {
+  scrollTopBtn.style.display = window.scrollY > 200 ? "flex" : "none";
+});
+
+scrollTopBtn.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+modalCloseBtn.addEventListener("click", () => {
+  recipeModal.style.display = "none";
+  resetModal();
+});
+
+recipeModal.addEventListener("click", (e) => {
+  if (e.target === recipeModal) {
+    recipeModal.style.display = "none";
+    resetModal();
+  }
+});
+
+searchInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") searchBtn.click();
+});
+
+searchBtn.addEventListener("click", () => {
+  fetchRecipes(searchInput.value.trim());
+});
 
 function showLoading() {
   recipesStatus.style.display = "flex";
-  recipesStatus.querySelector(".loader").style.display = "block";
-  recipesStatus.querySelector(".status-text").textContent =
-    "Loading recipes...";
   recipesGrid.innerHTML = "";
-}
-
-function showNoData() {
-  recipesStatus.style.display = "flex";
-  recipesStatus.querySelector(".loader").style.display = "none";
-  recipesStatus.querySelector(".status-text").textContent = "No recipes found";
-  recipesGrid.innerHTML = "";
-  searchBtn.disabled = false;
 }
 
 function hideStatus() {
   recipesStatus.style.display = "none";
-  searchBtn.disabled = false;
 }
 
 async function fetchRecipes(query = "") {
   showLoading();
-  searchBtn.disabled = true;
-
   try {
-    const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`;
-    const res = await fetch(url);
+    const res = await fetch(
+      `https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`
+    );
     const data = await res.json();
-
     if (!data.meals) {
-      showNoData();
+      recipesStatus.querySelector(".status-text").textContent =
+        "No recipes found";
       return;
     }
-
     hideStatus();
     displayRecipes(data.meals);
-  } catch (error) {
-    showNoData();
+  } catch {
+    recipesStatus.querySelector(".status-text").textContent =
+      "Failed to load recipes";
   }
 }
+
 async function openRecipeModal(id) {
   recipeModal.style.display = "flex";
+  resetModal();
+  modalLoader.style.display = "block";
+  modalBody.style.opacity = "0.5";
 
   try {
     const res = await fetch(
@@ -60,18 +88,19 @@ async function openRecipeModal(id) {
     const meal = data.meals[0];
 
     modalImage.src = meal.strMealThumb;
-    modalImage.alt = meal.strMeal;
     modalTitle.textContent = meal.strMeal;
     modalInstructions.textContent = meal.strInstructions;
-  } catch (error) {
+  } catch {
     modalTitle.textContent = "Failed to load recipe";
     modalInstructions.textContent = "";
+  } finally {
+    modalLoader.style.display = "none";
+    modalBody.style.opacity = "1";
   }
 }
 
 function displayRecipes(meals) {
   recipesGrid.innerHTML = "";
-
   meals.forEach((meal) => {
     const card = document.createElement("div");
     card.className = "recipe-card";
@@ -94,40 +123,13 @@ function displayRecipes(meals) {
 
     const btn = document.createElement("button");
     btn.textContent = "VIEW DETAILS";
-    btn.addEventListener("click", () => {
-      openRecipeModal(meal.idMeal);
-    });
+    btn.addEventListener("click", () => openRecipeModal(meal.idMeal));
 
     action.appendChild(btn);
-    content.appendChild(title);
-    content.appendChild(desc);
-    content.appendChild(action);
-
-    card.appendChild(img);
-    card.appendChild(content);
-
+    content.append(title, desc, action);
+    card.append(img, content);
     recipesGrid.appendChild(card);
   });
 }
-
-searchBtn.addEventListener("click", () => {
-  const query = searchInput.value.trim();
-  fetchRecipes(query);
-});
-
-searchInput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    searchBtn.click();
-  }
-});
-modalClose.addEventListener("click", () => {
-  recipeModal.style.display = "none";
-});
-
-recipeModal.addEventListener("click", (e) => {
-  if (e.target === recipeModal) {
-    recipeModal.style.display = "none";
-  }
-});
 
 fetchRecipes();
